@@ -1,0 +1,596 @@
+{
+	"info": {
+		"_postman_id": "b081b56e-e316-461e-815a-1ade5d1c9a05",
+		"name": "Kasir Aja",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33291338"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"nama Toko\", \"email\": \"sample@ex.com\", \"password\": \"123adsfadf@\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/registration",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let newGeneratedToken = pm.response.json().data.accessToken;\r",
+							"pm.environment.set(\"tokenKasir\", newGeneratedToken);\r",
+							"\r",
+							"pm.test(\"Check Admin\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.user.role).to.eql(\"admin\");\r",
+							"});\r",
+							"pm.test(\"Check Nama\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.user.name).to.eql(\"nama Toko\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenKasir}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessToken",
+						"value": "{{tokenKasir}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\": \"sample@ex.com\",\r\n   \"password\": \"123adsfadf@\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/authentications",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"authentications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.name).to.eql(\"kasir-serbaguna\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tokenKasir}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessToken",
+						"value": "{{tokenKasir}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"name\": \"kasir-serbaguna\",\r\n   \"email\": \"user@example.com\",\r\n   \"password\": \"jiasda2321@\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/users",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/users/3eb906df-7173-4e7f-b84b-1fec9fee6c7f",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"users",
+						"3eb906df-7173-4e7f-b84b-1fec9fee6c7f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/users",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\": \"update-user\",\r\n        \"email\": \"user@example.com\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/users/3eb906df-7173-4e7f-b84b-1fec9fee6c7f",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"users",
+						"3eb906df-7173-4e7f-b84b-1fec9fee6c7f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/users/3eb906df-7173-4e7f-b84b-1fec9fee6c7f",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"users",
+						"3eb906df-7173-4e7f-b84b-1fec9fee6c7f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Unit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n   \"name\": \"gram\",\r\n   \"description\": \"weight measurement\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://kasir-api.belajarqa.com/units",
+					"protocol": "https",
+					"host": [
+						"kasir-api",
+						"belajarqa",
+						"com"
+					],
+					"path": [
+						"units"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Unit Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/units/3df01461-d88a-48de-b855-9e491fd613d2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"units",
+						"3df01461-d88a-48de-b855-9e491fd613d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Unit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/units",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"units"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Unit",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Add Categories",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"name\": \"makanan ringan\",\r\n   \"description\": \"makanan ringan dari indofood\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/categories",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI1OTI2MH0.bLj5V1cSdf-jsp7KMT48PZgD4_kwE6M_v-Q081GKVrY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/categories/4d058ce4-06b1-4aac-821c-64bdc2c24ac6",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"categories",
+						"4d058ce4-06b1-4aac-821c-64bdc2c24ac6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI2NjAxOX0.rmVOxvNT2tyR3r2Xyptecmi8ktKk9YwNdiAN1xbGaP0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"name\": \"Budi\",\r\n   \"phone\": \"081234567890\",\r\n   \"address\": \"Bandoeng\",\r\n   \"description\": \"Budi anak Pak Edi\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/customers",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMzlhMjkwLTM4NzUtNDg2Yy1hNDI2LTBlM2RmNDNlNjZkOCIsImNvbXBhbnlJZCI6IjM3NTY2MDQ4LTA5ZTgtNGI3NS1iYmZjLTBhZTUwZmVjNzYwZSIsImlhdCI6MTcwOTI2NjAxOX0.rmVOxvNT2tyR3r2Xyptecmi8ktKk9YwNdiAN1xbGaP0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"category_id\" : \"811f547e-a24e-4f94-bfe1-b7ed7d11c03f\",\r\n   \"code\": \"A314ASDDFIER3432\",\r\n   \"name\": \"taro\",\r\n   \"price\": \"3500\",\r\n   \"cost\": \"3000\",\r\n   \"stock\": \"5\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/products",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Sales",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"officeId\": \"2f458834-0b21-466f-9f56-d35a8ed6f6ba\",\r\n   \"date\": \"2023-01-28\",\r\n   \"invoice\": \"INV/02/12/2023/001\",\r\n   \"amount\": 14000,\r\n   \"discount\": 0,\r\n   \"description\": \"testing\",\r\n   \"items\" : [\r\n       {\r\n           \"productId\": \"681fa14f-8bed-4bee-a4a3-5c15a9e3fc5d\",\r\n           \"quantity\": 4,\r\n           \"cost\": 1000\r\n       }\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/purchases",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"purchases"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
